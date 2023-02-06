@@ -145,21 +145,12 @@ class _HomeState extends State<Home> {
                                         const SizedBox(
                                           width: 4,
                                         ),
-                                        InkWell(
-                                          onTap: () async {
-                                            final uri = Uri.parse(
-                                                'https://www.${user.website.toString()}');
-                                            if (await canLaunchUrl(uri)) {
-                                              await launchUrl(uri);
-                                            }
-                                          },
-                                          child: Text(
-                                            user.website.toString(),
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                        Text(
+                                          user.website.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         )
                                       ],
