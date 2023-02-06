@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
+List _cachedData=[];
 class LoginInterceptor extends Interceptor {
-  List _cachedData = [];
+  
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
@@ -11,7 +12,7 @@ class LoginInterceptor extends Interceptor {
     if (!await isConnectedToInternet()) {
       print('Cached Data : $_cachedData');
       if (_cachedData.isNotEmpty) {
-        return _cachedData;
+        return handler.resolve(Response(requestOptions: options, data: _cachedData));
       } else {
         return handler.resolve(Response(requestOptions: options, data: [
           {
@@ -40,8 +41,6 @@ class LoginInterceptor extends Interceptor {
             "email": "Lucio_Hettinger@annie.ca",
           },
         ]));
-        // throw DioError(
-        //     error: "No Internet Connection", requestOptions: options);
       }
     }
     print("${options.method}: ${options.path}");
@@ -57,8 +56,8 @@ class LoginInterceptor extends Interceptor {
   Future onResponse(
       Response response, ResponseInterceptorHandler handler) async {
     // _cachedData = [];
-    // _cachedData.addAll(response.data);
-    _cachedData = response.data;
+    _cachedData.addAll(response.data);
+    // _cachedData = response.data;
     print('Cached Data Response: $_cachedData');
     print("<-- RESPONSE");
     print("${response.statusCode}");
