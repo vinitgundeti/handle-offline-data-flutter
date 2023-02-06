@@ -60,9 +60,46 @@ class _HomeState extends State<Home> {
                       itemCount: _users.length,
                       itemBuilder: (context, index) {
                         User user = _users[index];
-                        return ListTile(
-                          title: Text(user.name.toString()),
-                          subtitle: Text(user.email.toString()),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 0),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Text(user.name.toString()[0]),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            user.name.toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16),
+                                          ),
+                                          SizedBox(height: 4,),
+                                          Text(user.email.toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.grey,)),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ]),
+                            ),
+                            // child: ListTile(
+                            //   title: Text(user.name.toString()),
+                            //   subtitle: Text(user.email.toString()),
+                            // ),
+                          ),
                         );
                       },
                     ),
