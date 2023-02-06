@@ -17,11 +17,17 @@ class User {
   int? id;
   String? name;
   String? email;
+  String? username;
+  String? phone;
+  String? website;
 
   User({
     this.id,
     this.name,
     this.email,
+    this.username,
+    this.phone,
+    this.website
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

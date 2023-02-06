@@ -39,6 +39,7 @@ dependencies:
   retrofit: ^3.3.1
   logger: any  #for logging purpose
   json_annotation: ^4.8.0
+  url_launcher: ^6.1.8
 
 dev_dependencies:
   flutter_test:

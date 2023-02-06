@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'log_interceptor.dart';
 import 'usersclient.dart';
@@ -37,20 +38,21 @@ class _HomeState extends State<Home> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Retrofit')),
+        appBar: AppBar(title: const Text('Retrofit')),
         body: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: (() => _getUsers()), child: Text('Show Data')),
-                SizedBox(
+                    onPressed: (() => _getUsers()),
+                    child: const Text('Show Data')),
+                const SizedBox(
                   width: 8.0,
                 ),
                 ElevatedButton(
                     onPressed: (() => _removeUsers()),
-                    child: Text('Clear Data')),
+                    child: const Text('Clear Data')),
               ],
             ),
             showLoader
@@ -84,21 +86,115 @@ class _HomeState extends State<Home> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16),
                                           ),
-                                          SizedBox(height: 4,),
-                                          Text(user.email.toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.grey,)),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              var url =
+                                                  'mailto:${user.email.toString()}';
+                                              launchUrl(
+                                                Uri.parse(url),
+                                              );
+                                            },
+                                            child: Text(user.email.toString(),
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                )),
+                                          ),
                                         ],
                                       ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 150,
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.person,
+                                            color: Colors.indigo,
+                                            size: 16,
+                                          ),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          Text(
+                                            user.username.toString(),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.language,
+                                          color: Colors.indigo,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            final uri = Uri.parse(
+                                                'https://www.${user.website.toString()}');
+                                            if (await canLaunchUrl(uri)) {
+                                              await launchUrl(uri);
+                                            }
+                                          },
+                                          child: Text(
+                                            user.website.toString(),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Contact',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    InkWell(
+                                      onTap: (() async {
+                                        var url =
+                                            Uri.parse("tel:${user.phone}");
+                                        if (await canLaunchUrl(url)) {
+                                          await launchUrl(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      }),
+                                      child: Text(' : ${user.phone.toString()}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey)),
                                     )
                                   ],
                                 )
                               ]),
                             ),
-                            // child: ListTile(
-                            //   title: Text(user.name.toString()),
-                            //   subtitle: Text(user.email.toString()),
-                            // ),
                           ),
                         );
                       },
